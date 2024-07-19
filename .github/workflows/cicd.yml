@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
@@ -29,7 +29,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment:
       name: production
       url: http://wisecow.yourdomain.com
@@ -42,9 +42,11 @@ jobs:
       uses: azure/setup-kubectl@v1
       with:
         version: 'latest'
-        config: ${{ secrets.KUBE_CONFIG }}
 
     - name: Deploy to Kubernetes
+      env:
+        KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
       run: |
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
+        kubectl apply -f k8s/ingress.yaml
