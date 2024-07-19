@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted  
+    runs-on: self-hosted
 
     steps:
     - name: Checkout repository
@@ -29,7 +29,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: self-hosted  
+    runs-on: self-hosted
     environment:
       name: production
       url: http://wisecow.yourdomain.com
@@ -39,7 +39,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up kubectl
-      uses: actions-hub/kubectl@master
+      uses: azure/setup-kubectl@v1
       with:
         version: 'latest'
         config: ${{ secrets.KUBE_CONFIG }}
