@@ -1,7 +1,14 @@
-FROM python:3.8-slim
+FROM ubuntu:20.04
 WORKDIR /app
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    netcat \
+    fortune-mod \
+    cowsay \
+    && rm -rf /var/lib/apt/lists/*
 COPY . /app
-RUN pip install --no-cache-dir -r requirements.txt
-EXPOSE 8000
+EXPOSE 4499
 ENV NAME=Wisecow
-CMD ["python", "app.py"]
+CMD ["bash", "wisecow.sh"]
+
